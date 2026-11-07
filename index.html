@@ -3,62 +3,95 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>AI Trading Command Center</title>
+<title>AI Trading Command Center v0.2</title>
 <style>
 *{box-sizing:border-box}
-body{margin:0;background:#080d17;color:#f3f5fa;font-family:Arial,sans-serif}
-header{padding:24px 18px;background:#111b2b;border-bottom:1px solid #bd9548}
-h1{font-size:22px;color:#e5bd67;margin:0 0 8px}
-p{color:#a9b5c8}
-main{padding:16px;max-width:1100px;margin:auto}
-.card{background:#141e30;border:1px solid #2b3b53;border-radius:14px;padding:18px;margin-bottom:14px}
-.gold{color:#e5bd67}
-.green{color:#4ade80}
-.red{color:#fb7185}
-small{color:#a9b5c8}
-button{background:#cba65c;color:#101827;border:0;border-radius:9px;padding:12px;font-weight:bold}
-table{width:100%;border-collapse:collapse;font-size:14px}
-td,th{padding:12px 5px;border-bottom:1px solid #29374b;text-align:right}
+body{margin:0;background:#080d17;color:#edf2fa;font-family:Arial,sans-serif}
+header{background:#111b2b;padding:22px 16px;border-bottom:1px solid #b99248}
+main{max-width:1100px;margin:auto;padding:16px}
+h1{color:#e7bc69;font-size:22px;margin:0 0 8px}
+h2{font-size:18px;color:#e7bc69;margin:0 0 14px}
+p,small{color:#aab7ca}
+.card{background:#141e30;border:1px solid #2b3b53;border-radius:15px;padding:17px;margin-bottom:14px}
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+.num{font-size:25px;font-weight:bold;color:#fff}
+.green{color:#4ade80}.red{color:#fb7185}.gold{color:#e7bc69}
+.tag{display:inline-block;border:1px solid #46536a;border-radius:8px;padding:5px 9px;font-size:12px}
+input,select{width:100%;background:#0b1424;color:white;border:1px solid #43516a;border-radius:9px;padding:13px;margin-bottom:10px;font-size:15px}
+button{background:#cba65c;color:#101827;border:0;border-radius:9px;padding:11px;font-weight:bold;cursor:pointer}
+.stock{border-top:1px solid #30405a;padding:15px 0}
+.stock:first-child{border-top:0}
+.top{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.symbol{font-size:20px;font-weight:bold}
+.details{display:grid;grid-template-columns:repeat(2,1fr);gap:9px;margin-top:12px;font-size:13px}
+.details div{background:#0d1727;padding:10px;border-radius:8px}
+footer{text-align:center;padding:25px;color:#7e8da5;font-size:12px}
+@media(min-width:750px){.grid{grid-template-columns:repeat(4,1fr)}.details{grid-template-columns:repeat(4,1fr)}}
 </style>
 </head>
 <body>
 <header>
 <h1>AI TRADING COMMAND CENTER</h1>
-<small>مركز قيادة تداول الأوبشن | النسخة التجريبية</small>
+<small>مركز قيادة الأوبشن | الإصدار v0.2</small>
+<p><span class="tag gold">DEMO MODE</span> بيانات افتراضية للتجربة</p>
 </header>
 <main>
-<div class="card">
-<h2 class="gold">حالة النظام</h2>
-<p>وضع التشغيل: تجريبي</p>
-<p>TradingView: غير متصل</p>
-<p>Interactive Brokers: غير متصل</p>
-<p>الأسعار: غير مباشرة</p>
+<div class="grid">
+<div class="card"><small>قائمة المراقبة المستهدفة</small><div class="num">50</div></div>
+<div class="card"><small>فرص العرض</small><div class="num">5</div></div>
+<div class="card"><small>الفريم الرئيسي</small><div class="num">1H</div></div>
+<div class="card"><small>حالة التداول</small><div class="num gold">DEMO</div></div>
 </div>
 <div class="card">
-<h2 class="gold">ماسح الأوبشن</h2>
-<p>قائمة المراقبة: 50 سهمًا</p>
-<p>الإطار الرئيسي: 60 دقيقة</p>
-<p>تأكيد الاتجاه: 30 دقيقة</p>
-<p>الدخول: 5 دقائق</p>
-<p>مدة الصفقة: جلسة إلى جلستين</p>
+<h2>حالة الاتصالات</h2>
+<p>TradingView: <span class="red">غير متصل</span></p>
+<p>IBKR: <span class="red">غير متصل</span></p>
+<p>OpenAI API: <span class="red">غير متصل</span></p>
+<p>Telegram: <span class="red">غير متصل</span></p>
 </div>
 <div class="card">
-<h2 class="gold">فرص تجريبية</h2>
-<table>
-<tr><th>السهم</th><th>الاتجاه</th><th>الحالة</th></tr>
-<tr><td>NVDA</td><td class="green">CALL</td><td>مثال فقط</td></tr>
-<tr><td>TSLA</td><td class="red">PUT</td><td>مثال فقط</td></tr>
-<tr><td>MU</td><td class="green">CALL</td><td>مثال فقط</td></tr>
-<tr><td>META</td><td class="red">PUT</td><td>مثال فقط</td></tr>
-<tr><td>AVGO</td><td class="green">CALL</td><td>مثال فقط</td></tr>
-</table>
+<h2>ماسح فرص الأوبشن</h2>
+<input id="search" placeholder="ابحث عن سهم مثل NVDA" oninput="render()">
+<select id="filter" onchange="render()">
+<option value="ALL">جميع الاتجاهات</option>
+<option value="CALL">CALL فقط</option>
+<option value="PUT">PUT فقط</option>
+</select>
+<small>الدرجات والمستويات التالية أمثلة تعليمية وليست إشارات سوق فعلية.</small>
+<div id="results"></div>
 </div>
 <div class="card">
-<h2 class="gold">المرحلة القادمة</h2>
-<p>ربط بيانات السوق، تنبيهات TradingView، أسعار عقود IBKR، وتقييم الفرص آليًا.</p>
-<button onclick="alert('النسخة التجريبية تعمل بنجاح')">اختبار لوحة التحكم</button>
+<h2>قواعد النظام المستقبلية</h2>
+<p>الاتجاه: 60 دقيقة | التأكيد: 30 دقيقة | الدخول: 5 دقائق</p>
+<p>مدة الاحتفاظ المستهدفة: جلسة إلى جلستين</p>
+<p>انتهاء الأوبشن: حسب السيولة والمخاطرة</p>
+<p>لن تُعتمد أي فرصة حقيقية دون بيانات سوق حديثة وتحقق من السيولة.</p>
 </div>
-<small>جميع الإشارات المعروضة أمثلة افتراضية وليست توصيات تداول.</small>
 </main>
+<footer>AI Trading Command Center — Demo v0.2</footer>
+<script>
+const stocks=[
+{s:"NVDA",d:"CALL",score:94,e:"145",t1:"149",t2:"153",stop:"142"},
+{s:"TSLA",d:"PUT",score:92,e:"310",t1:"302",t2:"295",stop:"316"},
+{s:"MU",d:"CALL",score:91,e:"120",t1:"125",t2:"130",stop:"117"},
+{s:"META",d:"PUT",score:90,e:"610",t1:"595",t2:"580",stop:"620"},
+{s:"AVGO",d:"CALL",score:93,e:"180",t1:"185",t2:"190",stop:"177"}
+];
+function render(){
+const q=document.getElementById("search").value.toUpperCase();
+const f=document.getElementById("filter").value;
+const items=stocks.filter(x=>x.s.includes(q)&&(f==="ALL"||x.d===f));
+document.getElementById("results").innerHTML=items.length?items.map(x=>`
+<div class="stock">
+<div class="top"><span class="symbol">${x.s}</span><span class="${x.d==="CALL"?"green":"red"}">${x.d}</span><span class="tag gold">${x.score}/100</span></div>
+<div class="details">
+<div>دخول افتراضي<br><b>${x.e}</b></div>
+<div>هدف أول<br><b class="green">${x.t1}</b></div>
+<div>هدف ثانٍ<br><b class="green">${x.t2}</b></div>
+<div>إبطال<br><b class="red">${x.stop}</b></div>
+</div></div>`).join(""):"<p>لا توجد نتائج مطابقة</p>";
+}
+render();
+</script>
 </body>
 </html>
